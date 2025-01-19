@@ -1,5 +1,4 @@
-{config, pkgs, ...}:
-
+{ config, pkgs, ... }:
 {
   home = {
     username = "school";
@@ -10,5 +9,6 @@
   programs = {
     home-manager.enable = true;
   };
-  imports = [./shared.nix];
+
+  imports = [ ./shared.nix ];
 }

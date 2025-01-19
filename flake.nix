@@ -10,17 +10,26 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {self, nixpkgs, ...}@inputs: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
-  in {
-    # Configuration for this system.
-    nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs system;};
-        modules = [./nixos/configuration.nix];
+  outputs =
+    { self, nixpkgs, ... }@inputs:
+    let
+      system = "x86_64-linux";
+    in
+    {
+      # Configuration for this system.
+      nixosConfigurations = {
+        nixos = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            # INFO: Dont pass `system` as a special arg. This is an anti-pattern
+            inherit inputs;
+          };
+          modules = [
+            ./nixos/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
+            # INFO: Instead do this if you must
+            { nixpkgs.hostPlatform = system; }
+          ];
+        };
       };
     };
-    modules = [./shared/pkgs.nix];
-  };
 }

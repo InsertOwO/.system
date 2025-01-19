@@ -1,10 +1,5 @@
-{config, pkgs, ...}:
-
-let
-  mod = "Mod4";
-in
+{ config, pkgs, ... }:
 {
-
   home.packages = with pkgs; [
     rofi-wayland
     swaybg
@@ -31,9 +26,9 @@ in
           font = "SourceCodePro:size=10";
         };
 
-	colors= {
-	 alpha = 0.95;
-	};
+        colors = {
+          alpha = 0.95;
+        };
       };
     };
   };
